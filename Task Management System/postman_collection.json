@@ -1,0 +1,64 @@
+{
+  "info": {"name": "Task Management System", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable": [
+    {"key": "baseUrl", "value": "http://127.0.0.1:8000"},
+    {"key": "token", "value": ""},
+    {"key": "taskId", "value": "1"},
+    {"key": "commentId", "value": "1"},
+    {"key": "notificationId", "value": "1"},
+    {"key": "attachmentId", "value": "1"},
+    {"key": "userId", "value": "1"},
+    {"key": "auditLogId", "value": "1"}
+  ],
+  "item": [
+    {"name": "Authentication","item": [
+    {"name": "Register", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/auth/register", "body": {"mode": "raw", "raw": "{\"name\":\"User\",\"email\":\"user@example.com\",\"phone\":\"1234567890\",\"password\":\"Strong@123\"}"}}},
+    {"name": "Login", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/auth/login", "body": {"mode": "raw", "raw": "{\"email\":\"user@example.com\",\"password\":\"Strong@123\"}"}}},
+    {"name": "Profile", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/auth/profile"}},
+    {"name": "Update Profile", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/auth/profile", "body": {"mode": "raw", "raw": "{\"email\":\"updated@example.com\",\"name\":\"Updated User\",\"phone\":\"1234567890\"}"}}},
+    {"name": "Change Password", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/auth/change-password", "body": {"mode": "raw", "raw": "{\"current_password\":\"Strong@123\",\"new_password\":\"NewStrong@123\"}"}}},
+    {"name": "Logout", "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/auth/logout"}} 
+  ]},
+    {"name": "Users", "item": [
+      {"name": "List Users", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/users"}},
+      {"name": "Get User", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/users/{{userId}}"}},
+      {"name": "Create User", "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/users", "body": {"mode": "raw", "raw": "{\"name\":\"Managed User\",\"email\":\"managed@example.com\",\"password\":\"Strong@123\",\"role\":\"user\"}"}}},
+      {"name": "Update User", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/users/{{userId}}", "body": {"mode": "raw", "raw": "{\"full_name\":\"Updated User\"}"}}},
+      {"name": "Deactivate User", "request": {"method": "DELETE", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/users/{{userId}}"}}
+    ]},
+    {"name": "Tasks", "item": [
+      {"name": "Create Task", "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/tasks", "body": {"mode": "raw", "raw": "{\"title\":\"Prepare report\",\"priority\":\"high\"}"}}},
+      {"name": "List Tasks", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks?page=1&limit=20&sort_by=created_at&sort_order=desc"}},
+      {"name": "Get Task", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks/{{taskId}}"}},
+      {"name": "Update Task Details", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/tasks/{{taskId}}", "body": {"mode": "raw", "raw": "{\"title\":\"Updated report\",\"description\":\"Updated task details\",\"due_date\":\"2026-09-20T10:00:00\"}"}}},
+      {"name": "Assign Or Reassign Task", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/tasks/{{taskId}}/assign", "body": {"mode": "raw", "raw": "{\"assigned_to_id\":1}"}}},
+      {"name": "Change Status", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks/{{taskId}}/status?status=in_progress"}},
+      {"name": "Change Priority", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/tasks/{{taskId}}/priority", "body": {"mode": "raw", "raw": "{\"priority\":\"critical\"}"}}},
+      {"name": "Delete Task", "request": {"method": "DELETE", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks/{{taskId}}"}}
+    ]},
+    {"name": "Comments", "item": [
+      {"name": "Add Comment", "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/tasks/{{taskId}}/comments", "body": {"mode": "raw", "raw": "{\"content\":\"Progress update\"}"}}},
+      {"name": "List Comments", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks/{{taskId}}/comments"}},
+      {"name": "Update Comment", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/comments/{{commentId}}", "body": {"mode": "raw", "raw": "{\"content\":\"Updated comment\"}"}}},
+      {"name": "Delete Comment", "request": {"method": "DELETE", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/comments/{{commentId}}"}}
+    ]},
+    {"name": "Attachments", "item": [
+      {"name": "Upload Attachment", "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "body": {"mode": "formdata", "formdata": [{"key": "file", "type": "file", "src": ""}]}, "url": "{{baseUrl}}/tasks/{{taskId}}/attachments"}},
+      {"name": "List Attachments", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/tasks/{{taskId}}/attachments"}},
+      {"name": "Delete Attachment", "request": {"method": "DELETE", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/attachments/{{attachmentId}}"}}
+    ]},
+    {"name": "Notifications", "item": [
+      {"name": "List Notifications", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/notifications"}},
+      {"name": "Mark Notification Read", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/notifications/{{notificationId}}/read"}},
+      {"name": "Mark All Notifications Read", "request": {"method": "PUT", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/notifications/read-all"}}
+    ]},
+    {"name": "Dashboards", "item": [
+      {"name": "Admin Dashboard", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/dashboard/admin"}},
+      {"name": "User Dashboard", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/dashboard/user"}}
+    ]},
+    {"name": "Audit Logs", "item": [
+      {"name": "List Audit Logs", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/audit-logs"}},
+      {"name": "Get Audit Log", "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{token}}"}], "url": "{{baseUrl}}/audit-logs/{{auditLogId}}"}}
+    ]}
+  ]
+}
